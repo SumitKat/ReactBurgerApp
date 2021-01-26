@@ -1,5 +1,9 @@
+// Order action creator.
+
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-orders";
+
+// Purchase success action creator.
 export const purchaseBurgerSuccess = (id, orderData) => {
   return {
     type: actionTypes.PURCHASE_BURGER_SUCCESS,
@@ -8,18 +12,26 @@ export const purchaseBurgerSuccess = (id, orderData) => {
   };
 };
 
+// Purchase fail action creator.
 export const purchaseBurgerFail = error => {
   return {
     type: actionTypes.PURCHASE_BURGER_FAIL,
     error: error
   };
 };
+
+// Purchase start action creator.
 export const purchaseBurgerStart = () => {
   return {
     type: actionTypes.PURCHASE_BURGER_START
   };
 };
 
+// Purchase action creator.
+// Dispatch purchase start
+// make a post request with order data
+// Dispatch purchase success if success
+// Otherwise dispatch purchase fail.
 export const purchaseBurger = (orderData, token) => {
   return dispatch => {
     dispatch(purchaseBurgerStart());
@@ -34,12 +46,14 @@ export const purchaseBurger = (orderData, token) => {
   };
 };
 
+// Purchase init action creator
 export const purchaseInit = () => {
   return {
     type: actionTypes.PURCHASE_INIT
   };
 };
 
+// Order fetching successfull action creator.
 export const fetchOrdersSuccess = orders => {
   return {
     type: actionTypes.FETCH_ORDERS_SUCCESS,
@@ -47,6 +61,7 @@ export const fetchOrdersSuccess = orders => {
   };
 };
 
+// Order fetching fail action creator.
 export const fetchOrdersFail = error => {
   return {
     type: actionTypes.FETCH_ORDERS_FAIL,
@@ -54,12 +69,18 @@ export const fetchOrdersFail = error => {
   };
 };
 
+// Order fetching start action creator.
 export const fetchOrdersStart = () => {
   return {
     type: actionTypes.FETCH_ORDERS_START
   };
 };
 
+// Fetch order action creator.
+// Dispatch fetch order start.
+// Make get request to server with query parameters
+// If success update fetchedOrders object and dispatch Fetch success action
+// otherwise dispatch fetch order fail action.
 export const fetchOrders = (token, userId) => {
   return dispatch => {
     dispatch(fetchOrdersStart());
@@ -73,11 +94,9 @@ export const fetchOrders = (token, userId) => {
           fetchedOrders.push({ ...res.data[key], id: key });
         }
         dispatch(fetchOrdersSuccess(fetchedOrders));
-        // this.setState({ loading: false, orders: fetchedOrders });
       })
       .catch(err => {
         dispatch(fetchOrdersFail(err));
-        // this.setState({ loading: false });
       });
   };
 };

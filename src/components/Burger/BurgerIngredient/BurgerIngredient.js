@@ -1,3 +1,5 @@
+// Burger Ingredient Component.
+
 import React, { Component } from "react";
 import classes from "./BurgerIngredient.css";
 import PropTypes from "prop-types";
@@ -6,6 +8,7 @@ class BurgerIngredient extends Component {
   render() {
     let ingredient = null;
 
+    // Checks the type of burger ingredient and returns the div for the same.
     switch (this.props.type) {
       case "bread-bottom":
         ingredient = <div className={classes.BreadBottom}></div>;
@@ -43,6 +46,7 @@ class BurgerIngredient extends Component {
   }
 }
 
+// Checks if prop 'type' is present
 BurgerIngredient.propTypes = {
   type: PropTypes.string.isRequired
 };

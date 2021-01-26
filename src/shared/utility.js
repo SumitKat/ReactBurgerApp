@@ -1,3 +1,6 @@
+// Utility file.
+
+// Updates object by copying old object and adding updated properties.
 export const updateObject = (oldObject, updatedProperties) => {
   return {
     ...oldObject,
@@ -5,6 +8,7 @@ export const updateObject = (oldObject, updatedProperties) => {
   };
 };
 
+// Check validity of an input element
 export const checkValidity = (value, rules) => {
   let isValid = true;
   if (!rules) {

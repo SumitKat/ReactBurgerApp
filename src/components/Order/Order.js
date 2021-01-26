@@ -1,9 +1,12 @@
+// Single Order component
+
 import React from "react";
 import classes from "./Order.css";
 
 const order = props => {
   const ingredients = [];
 
+  // Push elements to ingredients array.
   for (let ingredientName in props.ingredients) {
     ingredients.push({
       name: ingredientName,
@@ -11,6 +14,7 @@ const order = props => {
     });
   }
 
+  // Creates spans with ingredient name and quantity.
   const ingredientOutput = ingredients.map(ig => {
     return (
       <span
@@ -27,6 +31,8 @@ const order = props => {
       </span>
     );
   });
+
+  // Returns single order ingredients price, name and quantity.
   return (
     <div className={classes.Order}>
       <p>Ingredients: {ingredientOutput}</p>

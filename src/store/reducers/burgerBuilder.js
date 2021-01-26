@@ -1,6 +1,9 @@
+// Burger builder Reducer.
+
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
 
+// Initial State.
 const initialState = {
   ingredients: null,
   totalPrice: 4,
@@ -8,6 +11,7 @@ const initialState = {
   building: false
 };
 
+// Ingredients prices.
 const INGREDIENT_PRICES = {
   salad: 0.5,
   cheese: 0.4,
@@ -15,6 +19,8 @@ const INGREDIENT_PRICES = {
   bacon: 1.0
 };
 
+// Add Ingredients method.
+// Increments ingredient quantity in state
 const addIngredient = (state, action) => {
     const updatedIngredient = {
       [action.ingredientName]: state.ingredients[action.ingredientName] + 1
@@ -30,6 +36,8 @@ const addIngredient = (state, action) => {
     };
     return updateObject(state, updatedState);
   },
+  // Add Ingredients method.
+  // Decrements ingredient quantity in state
   removeIngredient = (state, action) => {
     const updatedIng = {
       [action.ingredientName]: state.ingredients[action.ingredientName] - 1
@@ -42,6 +50,8 @@ const addIngredient = (state, action) => {
     };
     return updateObject(state, updatedSt);
   },
+  // Set Ingredients method.
+  // Sets ingredient, total price, building and error
   setIngredient = (state, action) => {
     return updateObject(state, {
       ingredients: {
@@ -55,12 +65,15 @@ const addIngredient = (state, action) => {
       error: false
     });
   },
+  // Fetch Ingredient fail method sets error property to true in state object.
   fetchIngredientFailed = state => {
     return updateObject(state, {
       error: true
     });
   };
 
+// Reducer method, receives state, action as payload
+// Checks action type and call methods.
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_INGREDIENT:

@@ -1,3 +1,5 @@
+// Order container.
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
@@ -8,6 +10,7 @@ import * as actions from "../../store/actions/index";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Orders extends Component {
+  // Dispatching action onFetchOrders with payload token, userId
   componentDidMount() {
     this.props.onFetchOrders(this.props.token, this.props.userId);
   }
@@ -15,6 +18,7 @@ class Orders extends Component {
   render() {
     let orders = <Spinner />;
 
+    // Subscription to order props. And creating a Order component list.
     if (!this.props.loading) {
       orders = this.props.orders.map(order => (
         <Order
@@ -29,6 +33,7 @@ class Orders extends Component {
   }
 }
 
+// Mapping actions to props.
 const mapDispatchToProps = dispatch => {
   return {
     onFetchOrders: (token, userId) =>
@@ -36,6 +41,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+// Mapping redux state to props for container
 const mapStateToProps = state => {
   return {
     orders: state.order.order,
@@ -45,6 +51,7 @@ const mapStateToProps = state => {
   };
 };
 
+// Export component with 'withErrorHandler' HOC.
 export default connect(
   mapStateToProps,
   mapDispatchToProps

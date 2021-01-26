@@ -1,3 +1,5 @@
+/* Authetication styling */
+
 .Auth {
   margin: 20px auto;
   width: 80%;
@@ -8,6 +10,7 @@
   box-sizing: border-box;
 }
 
+/* Styling for device with width more than 600px */
 @media (min-width: 600px) {
   .Auth {
     width: 500px;

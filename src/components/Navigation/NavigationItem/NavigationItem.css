@@ -1,3 +1,5 @@
+/* Navigation Item styling */
+
 .NavigationItem {
   margin: 10px 0;
   box-sizing: border-box;
@@ -19,6 +21,7 @@
   color: #40a4c8;
 }
 
+/* Styling for devices with minimum width of 500px */
 @media (min-width: 500px) {
   .NavigationItem {
     margin: 0;

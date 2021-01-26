@@ -1,3 +1,5 @@
+// Side Drawer Component.
+
 import React from "react";
 import Logo from "../../Logo/Logo";
 import NavigationItems from "../NavigationItems/NavigationItems";
@@ -8,10 +10,12 @@ import Aux from "../../../hoc/Aux/Aux";
 const sideDrawer = props => {
   let attachedClasses = [classes.SideDrawer, classes.Close];
 
+  // Adds classes to drawer based on show/hide props.
   if (props.open) {
     attachedClasses = [classes.SideDrawer, classes.Open];
   }
 
+  // Returns Logo and Navigation items based on authenticity of user.
   return (
     <Aux>
       <Backdrop show={props.open} clicked={props.closed} />

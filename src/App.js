@@ -1,3 +1,5 @@
+// Base component.
+
 import React, { Component } from "react";
 import Layout from "./hoc/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
@@ -8,14 +10,17 @@ import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
 
+// Lazy loading for Checkout Component
 const asyncCheckout = asyncComponent(() => {
   return import("./containers/Checkout/Checkout");
 });
 
+// Lazy loading for Orders Component
 const asyncOrders = asyncComponent(() => {
   return import("./containers/Orders/Orders");
 });
 
+// Lazy loading for Authentication Component
 const asyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
 });
@@ -25,6 +30,7 @@ class App extends Component {
     this.props.onTryAutoSignUp();
   }
   render() {
+    // Routes if user is not authenticated.
     let routes = (
       <Switch>
         <Route path="/auth" component={asyncAuth} />
@@ -33,6 +39,7 @@ class App extends Component {
       </Switch>
     );
 
+    // Routes if user is authenticated.
     if (this.props.isAuthenticated) {
       routes = (
         <Switch>
@@ -54,18 +61,21 @@ class App extends Component {
   }
 }
 
+// Map redux state to props.
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null
   };
 };
 
+// Map actions to props.
 const mapDispatchToProps = dispatch => {
   return {
     onTryAutoSignUp: () => dispatch(actions.authCheckState())
   };
 };
 
+// Connect is used for subscription to state.
 export default withRouter(
   connect(
     mapStateToProps,

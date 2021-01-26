@@ -1,3 +1,4 @@
+//  Input Component
 import React from "react";
 import classes from "./Input.css";
 
@@ -10,6 +11,7 @@ const input = props => {
   }
 
   switch (props.elementType) {
+    // Input Field
     case "input":
       inputElement = (
         <input
@@ -20,6 +22,8 @@ const input = props => {
         />
       );
       break;
+
+    // Text Area
     case "textarea":
       inputElement = (
         <textarea
@@ -30,6 +34,8 @@ const input = props => {
         />
       );
       break;
+
+    // Select Field
     case "select":
       inputElement = (
         <select
@@ -45,6 +51,8 @@ const input = props => {
         </select>
       );
       break;
+
+    // Input element as default
     default:
       inputElement = (
         <input

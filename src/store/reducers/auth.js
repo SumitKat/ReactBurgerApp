@@ -1,6 +1,9 @@
+// Authentication reducer.
+
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
 
+// Initial state
 const initialState = {
   token: null,
   userId: null,
@@ -9,10 +12,12 @@ const initialState = {
   authRedirectPath: "/"
 };
 
+// Auth start method sets error state to null and loading to true.
 const authStart = (state, action) => {
   return updateObject(state, { error: null, loading: true });
 };
 
+// Authentication success method, sets token, user ID, error and loading state.
 const authSuccess = (state, action) => {
   return updateObject(state, {
     token: action.idToken,
@@ -22,6 +27,7 @@ const authSuccess = (state, action) => {
   });
 };
 
+// Authetication failure methods, sets error and loading state.
 const authFail = (state, action) => {
   return updateObject(state, {
     error: action.error,
@@ -29,6 +35,7 @@ const authFail = (state, action) => {
   });
 };
 
+// Logout methods sets token, userID state.
 const authLogout = (state, action) => {
   return updateObject(state, {
     token: null,
@@ -36,12 +43,15 @@ const authLogout = (state, action) => {
   });
 };
 
+// Redirect method sets authRedirectPath.
 const setAuthRedirectPath = (state, action) => {
   return updateObject(state, {
     authRedirectPath: action.path
   });
 };
 
+// Reducer method, receives state, action as payload
+// Checks action type and call methods.
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:

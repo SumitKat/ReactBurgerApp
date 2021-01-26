@@ -1,13 +1,12 @@
+// Order Summary Component.
+
 import React, { Component } from "react";
 import Aux from "../../../hoc/Aux/Aux";
 import Button from "../../UI/Button/Button";
 
 class OrderSummary extends Component {
-  // componentDidUpdate() {
-  //   console.log("[Order Summary] Will Update");
-  // }
-
   render() {
+    //  List of ingredients with quantity.
     const ingredientSummary = Object.keys(this.props.ingredients).map(igKey => {
       return (
         <li key={igKey}>
@@ -17,6 +16,7 @@ class OrderSummary extends Component {
       );
     });
 
+    // Returns order summary component with Ingredient summary, total price, cancel & order button.
     return (
       <Aux>
         <h3>Your Order</h3>

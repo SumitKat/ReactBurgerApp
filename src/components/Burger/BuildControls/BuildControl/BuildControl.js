@@ -1,6 +1,9 @@
+//  Build Control Component.
 import React from "react";
 import classes from "./BuildControl.css";
 
+// Returns Controller for burger builder with label for ingredient,
+// button to increase/decrese ingredient's quantity.
 const buildControl = props => (
   <div className={classes.BuildControl}>
     <div className={classes.Label}>{props.label}</div>

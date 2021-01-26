@@ -1,3 +1,5 @@
+// Spinner Component
+
 import React from "react";
 import classes from "./Spinner.css";
 

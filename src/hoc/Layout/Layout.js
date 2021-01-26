@@ -1,3 +1,5 @@
+// Layout Component for application.
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
@@ -7,14 +9,17 @@ import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
 import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 
 class Layout extends Component {
+  // Local state.
   state = {
     showSideDrawer: false
   };
 
+  // Side drawer close handler.
   sideDrawerClosedHandler = () => {
     this.setState({ showSideDrawer: false });
   };
 
+  // Side drawer togglew handler.
   sideDrawerToggleHandler = () => {
     this.setState(prevState => {
       return {
@@ -23,6 +28,7 @@ class Layout extends Component {
     });
   };
 
+  // Return Toolbar, side drawer and main content.
   render() {
     return (
       <Aux>
@@ -41,6 +47,7 @@ class Layout extends Component {
   }
 }
 
+// Mapping state to props.
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null

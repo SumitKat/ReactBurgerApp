@@ -1,3 +1,5 @@
+/* Navigation Items styling */
+
 .NavigationItems {
   margin: 0;
   padding: 0;
@@ -8,6 +10,7 @@
   height: 100%;
 }
 
+/* Styling for devices with minimum with of 500px */
 @media (min-width: 500px) {
   .NavigationItems {
     flex-flow: row;

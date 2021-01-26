@@ -1,3 +1,4 @@
+// Contact Data Container.
 import React, { Component } from "react";
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/Spinner/Spinner";
@@ -10,8 +11,12 @@ import * as actions from "../../../store/actions/index";
 import { updateObject, checkValidity } from "../../../shared/utility";
 
 class ContactData extends Component {
+  // Local state for contact data.
   state = {
+    // Form elements with element type, value, valid, validation required
+    //  and touched property. In same order as we expect to see in the form.
     orderForm: {
+      // Name element.
       name: {
         elementType: "input",
         elementConfig: {
@@ -25,6 +30,7 @@ class ContactData extends Component {
         valid: false,
         touched: false
       },
+      // Street element.
       street: {
         elementType: "input",
         elementConfig: {
@@ -38,6 +44,7 @@ class ContactData extends Component {
         valid: false,
         touched: false
       },
+      // Zipcode element.
       zipCode: {
         elementType: "input",
         elementConfig: {
@@ -53,6 +60,7 @@ class ContactData extends Component {
         valid: false,
         touched: false
       },
+      // Country element.
       country: {
         elementType: "input",
         elementConfig: {
@@ -66,6 +74,7 @@ class ContactData extends Component {
         valid: false,
         touched: false
       },
+      // Email element.
       email: {
         elementType: "input",
         elementConfig: {
@@ -79,6 +88,7 @@ class ContactData extends Component {
         valid: false,
         touched: false
       },
+      // Delivery Method element.
       deliveryMethod: {
         elementType: "select",
         elementConfig: {
@@ -92,20 +102,26 @@ class ContactData extends Component {
         value: "fastest"
       }
     },
+
+    // Form is valid property.
     formIsValid: false
   };
 
+  // Order handler method.
   orderHandler = event => {
     event.preventDefault();
-    // this.setState({ loading: true });
 
     const formData = {};
+
+    // Create an object called form data with input element type as key &
+    // input element's value as value.
     for (let formElementIdentifier in this.state.orderForm) {
       formData[formElementIdentifier] = this.state.orderForm[
         formElementIdentifier
       ].value;
     }
 
+    // Update the order data.
     const order = {
       ingredients: this.props.ings,
       price: this.props.price,
@@ -113,14 +129,19 @@ class ContactData extends Component {
       userId: this.props.userId
     };
 
+    // Call onOrderBurger method with order data and token.
     this.props.onOrderBurger(order, this.props.token);
   };
 
+  // Input change handler method.
   inputChangedHandler = (event, inputIdentifier) => {
+    // Create updated element object value, validity, touched property/
     const updatedFormElement = updateObject(
       this.state.orderForm[inputIdentifier],
       {
         value: event.target.value,
+        // Call Check validity method pass payload as
+        // value and validation property for element.
         valid: checkValidity(
           event.target.value,
           this.state.orderForm[inputIdentifier].validation
@@ -129,20 +150,26 @@ class ContactData extends Component {
       }
     );
 
+    // Update form data with updated element.
     const updatedOrderForm = updateObject(this.state.orderForm, {
       [inputIdentifier]: updatedFormElement
     });
 
     let formIsValid = true;
 
+    // Check if form is valid
     for (let inputIdentifier in updatedOrderForm) {
       formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
     }
+
+    // Update local state.
     this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
   };
 
   render() {
     const formElementsArray = [];
+
+    // Loop through input elements object.
     for (let key in this.state.orderForm) {
       formElementsArray.push({
         id: key,
@@ -150,10 +177,11 @@ class ContactData extends Component {
       });
     }
 
+    // Create form JS with every input element and properties set to match local state.
     let form = (
       <form onSubmit={this.orderHandler}>
-        {/* <Input elementType=".." elementConfig=".." value=".." /> */}
         {formElementsArray.map(formElement => (
+          // Input component.
           <Input
             key={formElement.id}
             elementType={formElement.config.elementType}
@@ -165,12 +193,15 @@ class ContactData extends Component {
             shouldValidate={formElement.config.validation}
           />
         ))}
+
+        {/* Button Componnet */}
         <Button btnType="Success" disabled={!this.state.formIsValid}>
           Order
         </Button>
       </form>
     );
 
+    // Check if loading props isset if so show spinner component instead
     if (this.props.loading) {
       form = <Spinner />;
     }
@@ -183,6 +214,7 @@ class ContactData extends Component {
   }
 }
 
+// Mapping of react store to props for container.
 const mapStateToProps = state => {
   return {
     ings: state.burgerBuilder.ingredients,
@@ -193,6 +225,7 @@ const mapStateToProps = state => {
   };
 };
 
+// Mapping actions to props.
 const mapDispatchToProps = dispatch => {
   return {
     onOrderBurger: (orderData, token) =>
@@ -200,6 +233,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+// Export container withErrorHandler HOC.
 export default connect(
   mapStateToProps,
   mapDispatchToProps

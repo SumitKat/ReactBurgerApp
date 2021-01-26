@@ -1,12 +1,16 @@
+// Authentication Action Creator.
+
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 
+// Auth start action creator
 export const authStart = () => {
   return {
     type: actionTypes.AUTH_START
   };
 };
 
+// Auth success action creator
 export const authSuccess = (token, userId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
@@ -15,6 +19,7 @@ export const authSuccess = (token, userId) => {
   };
 };
 
+// Auth fail action creator
 export const authFail = error => {
   return {
     type: actionTypes.AUTH_FAIL,
@@ -22,6 +27,8 @@ export const authFail = error => {
   };
 };
 
+// Logout action creator, remove token, expiration date and user ID.
+// Then call logout reducer.
 export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("expirationDate");
@@ -31,6 +38,7 @@ export const logout = () => {
   };
 };
 
+// Dispatch logout action after expiration has passed.
 export const checkAuthTimeout = expirationTime => {
   return dispatch => {
     setTimeout(() => {
@@ -39,23 +47,32 @@ export const checkAuthTimeout = expirationTime => {
   };
 };
 
+// Authentication action creator.
+// email, password, isSignup payload.
 export const auth = (email, password, isSignup) => {
   return dispatch => {
+    // Dispatch authenticatioin start action.
     dispatch(authStart());
+
+    // Authentication Data.
     const authData = {
       email: email,
       password: password,
       returnSecureToken: true
     };
 
+    // Authentication URL.
     let url =
       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBX8L8lUIlQlYyThrlOLp36PzK-I4mugfc";
 
+    // Signup URL.
     if (!isSignup) {
       url =
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBX8L8lUIlQlYyThrlOLp36PzK-I4mugfc";
     }
 
+    // Call signup or signin URL, update local storage and
+    //  dispatch authentication success/ authtime out action creator.
     axios
       .post(url, authData)
       .then(response => {
@@ -75,6 +92,7 @@ export const auth = (email, password, isSignup) => {
   };
 };
 
+// Set auth redirect path action creator.
 export const setAuthRedirectPath = path => {
   return {
     type: actionTypes.SET_AUTH_REDIRECT_PATH,
@@ -82,18 +100,30 @@ export const setAuthRedirectPath = path => {
   };
 };
 
+// Check authenticate action creator.
 export const authCheckState = () => {
   return dispatch => {
+    // Fetch Toke.
     const token = localStorage.getItem("token");
+
+    // If token is not present dispatch logout action creator.
     if (!token) {
       dispatch(logout());
     } else {
+      // Fetch expiration date.
       const expirationDate = new Date(localStorage.getItem("expirationDate"));
+
+      // Check expiration date is less than current date.
       if (expirationDate <= new Date()) {
         dispatch(logout());
       } else {
+        // Fetch userID.
         const userId = localStorage.getItem("userId");
+
+        // Dispatch auth Success action creator.
         dispatch(authSuccess(token, userId));
+
+        // Dispatch auth check timeout.
         dispatch(
           checkAuthTimeout(
             (expirationDate.getTime() - new Date().getTime()) / 1000

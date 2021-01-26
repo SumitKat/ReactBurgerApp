@@ -1,3 +1,5 @@
+// Authentication Container.
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -11,6 +13,7 @@ import * as actions from "../../store/actions/index";
 import { updateObject, checkValidity } from "../../shared/utility";
 
 class Auth extends Component {
+  // Local State with input elements to be displayed in same order
   state = {
     controls: {
       email: {
@@ -45,12 +48,17 @@ class Auth extends Component {
     isSignup: true
   };
 
+  // If burger builder state is not set and
+  // authentication redirect path is not set to homepage.
+  // Set after authentication redirect path to homepage.
   componentDidMount() {
     if (!this.props.buildingBurger && this.props.authRedirectPath !== "/") {
       this.props.onSetAuthRedirectPath();
     }
   }
 
+  // Input change handler.
+  // Update state for the form element's value, validity.
   inputChangedHandler = (event, controlName) => {
     const updatedControls = updateObject(this.state.controls, {
       [controlName]: updateObject(this.state.controls[controlName], {
@@ -66,6 +74,7 @@ class Auth extends Component {
     this.setState({ controls: updatedControls });
   };
 
+  // Submit Handler.
   submitHandler = event => {
     event.preventDefault();
     this.props.onAuth(
@@ -83,6 +92,8 @@ class Auth extends Component {
 
   render() {
     const formElementsArray = [];
+
+    // Loop through controls and create form elements array
     for (let key in this.state.controls) {
       formElementsArray.push({
         id: key,
@@ -90,6 +101,7 @@ class Auth extends Component {
       });
     }
 
+    // Loop through form element object and create input fields jsx.
     let form = formElementsArray.map(formElement => (
       <Input
         key={formElement.id}
@@ -103,17 +115,20 @@ class Auth extends Component {
       />
     ));
 
+    // If loading is true, display spinner.
     if (this.props.loading) {
       form = <Spinner />;
     }
 
     let errorMessage = null;
 
+    // Set error message if error props is set.
     if (this.props.error) {
       errorMessage = <p>{this.props.error.message}</p>;
     }
 
     let authRedirect = null;
+    // Check if user is authenticated, if yes then set authentication redirect.
     if (this.props.isAuthenticated) {
       authRedirect = <Redirect to={this.props.authRedirectPath} />;
     }
@@ -134,6 +149,7 @@ class Auth extends Component {
   }
 }
 
+// Mapping redux store to props.
 const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
@@ -144,6 +160,9 @@ const mapStateToProps = state => {
   };
 };
 
+// Mapping actions to props.
+// Dispatch authentication action.
+// Set redirect path to homepage.
 const mapDispatchToProps = dispatch => {
   return {
     onAuth: (email, password, isSignup) =>

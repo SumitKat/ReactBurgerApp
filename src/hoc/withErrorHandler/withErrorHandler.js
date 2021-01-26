@@ -9,12 +9,15 @@ const withErrorHandler = (WrappedComponent, axios) => {
     };
 
     componentWillMount() {
-      //  Clear any previous error
+      // Clear any previous error
+      // Axios interceptor fo request.
       this.reqInterceptor = axios.interceptors.request.use(req => {
         this.setState({ error: null });
         return req;
       });
 
+      // Add new error
+      // Axios interceptor fo response.
       this.resInterceptor = axios.interceptors.response.use(
         res => res,
         error => {
@@ -32,6 +35,8 @@ const withErrorHandler = (WrappedComponent, axios) => {
       this.setState({ error: null });
     };
 
+    // Returns modal with error if present.
+    // Otherwise displays component.
     render() {
       return (
         <Aux>
@@ -46,14 +51,6 @@ const withErrorHandler = (WrappedComponent, axios) => {
       );
     }
   };
-  //     return props => {
-  //     return (
-  //       <Aux>
-  //         <Modal show>Something didn't work</Modal>
-  //         <WrappedComponent {...props} />
-  //       </Aux>
-  //     );
-  //   };
 };
 
 export default withErrorHandler;

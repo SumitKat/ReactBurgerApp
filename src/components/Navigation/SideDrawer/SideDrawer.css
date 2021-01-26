@@ -1,3 +1,4 @@
+/* Side drawer styling */
 .SideDrawer {
   position: fixed;
   width: 280px;
@@ -12,6 +13,7 @@
   transition: transform 0.3s ease-out;
 }
 
+/* Styling for devices with minimum width of 500px */
 @media (min-width: 500px) {
   .SideDrawer {
     display: none;

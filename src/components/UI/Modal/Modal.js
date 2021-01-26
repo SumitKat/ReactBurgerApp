@@ -1,9 +1,12 @@
+// Modal Component
+
 import React, { Component } from "react";
 import classes from "./Modal.css";
 import Aux from "../../../hoc/Aux/Aux";
 import Backdrop from "../Backdrop/Backdrop";
 
 class Modal extends Component {
+  // Checks if show or children props are changed.
   shouldComponentUpdate(nextProps, nextState) {
     return (
       nextProps.show !== this.props.show ||
@@ -11,14 +14,13 @@ class Modal extends Component {
     );
   }
 
-  // componentDidUpdate() {
-  //   console.log("[Modal] Component Update");
-  // }
-
   render() {
     return (
       <Aux>
+        {/* Backdrop component wraps modal */}
         <Backdrop show={this.props.show} clicked={this.props.modalClosed} />
+
+        {/* Show/Hide modal */}
         <div
           className={classes.Modal}
           style={{
